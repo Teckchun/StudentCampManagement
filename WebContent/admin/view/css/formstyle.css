@@ -1,0 +1,33 @@
+.txttext{
+	height: 36px;
+	border-radius: 0;
+}
+.combo{
+	
+	color:gray;
+	font-style:italic;
+}
+.btnownstyle{
+	border-radius: 0; 
+	background:#1d9c73;
+}
+.btnownstyle:hover{
+	background:#157355;
+}
+ .btnstyle{
+ 	width: 150px;
+ 	border-radius: 0;
+ }
+ .iconimage{
+	width: 20px;
+	height: 20px;
+	margin-top:-8px;
+
+}
+.boldstyle{
+	font-size: 18px;
+
+}
+.btnmystyle{
+  		border-radius:0;
+  	}

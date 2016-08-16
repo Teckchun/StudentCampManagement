@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificate" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="155eed7a-30bf-4304-9e6d-939ecfc6aa73">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="418"/>
+	<property name="ireport.background.image" value="D:\New\Student Management\WebContent\report\certsample-1.jpg"/>
+	<property name="ireport.background.image.properties" value="false,true,0.25,0,0,0,0,0,0"/>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filepath" class="java.lang.String"/>
+	<parameter name="hour" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT last_name ||' '||first_name, tbl_generation.generation,tbl_students.gender, tbl_course.course_type,to_char(tbl_course.start_date,'FMMonth FMDDth, YYYY') , to_char(tbl_course.end_date,'FMMonth FMDDth, YYYY')as b from tbl_students inner join tbl_course on tbl_students.course_id = tbl_course.course_id
+ inner join tbl_generation on tbl_generation.g_id = tbl_course.g_id where stu_id=$P{id};]]>
+	</queryString>
+	<field name="?column?" class="java.lang.String"/>
+	<field name="generation" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="course_type" class="java.lang.String"/>
+	<field name="to_char" class="java.lang.String"/>
+	<field name="b" class="java.lang.String"/>
+	<background>
+		<band height="550" splitType="Stretch">
+			<image>
+				<reportElement x="11" y="0" width="802" height="550" uuid="5202a3a3-7cc0-4c3d-a0e8-f44ee90dbced"/>
+				<imageExpression><![CDATA[$P{filepath}+"\\Certificate-Gold.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="388" y="203" width="185" height="35" uuid="204e1fc9-588b-49fe-b848-1c2ba64093f9"/>
+				<textElement>
+					<font fontName="Serif" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{?column?}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="378" y="246" width="97" height="26" uuid="34529a56-40ef-4431-bcc9-e921182da2aa"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="477" y="246" width="111" height="26" uuid="0bbfe5d4-b88c-469b-8d7d-139c8ed957c6"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{course_type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="330" y="269" width="134" height="32" uuid="1904c5d8-4051-4905-8c97-8ab8e92402cb"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{to_char}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="486" y="269" width="148" height="32" uuid="32871868-347d-4079-a901-a11d1b19278a"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{b}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="396" y="307" width="100" height="29" uuid="6fa7e136-2c10-449f-862d-1d3811afc342"/>
+				<textElement>
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hour}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="338" y="203" width="144" height="35" uuid="24b5f49f-57fe-494a-ba1a-922513a5f1d7"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}=="1" ? "Mrs." : "Mr."]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement isPrintRepeatedValues="false" x="388" y="353" width="100" height="20" uuid="9e93a510-3333-49a7-a752-f48e29734f33"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</background>
+	<title>
+		<band height="147" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="198" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="83" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="64" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

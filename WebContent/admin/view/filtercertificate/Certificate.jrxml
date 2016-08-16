@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificate" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="155eed7a-30bf-4304-9e6d-939ecfc6aa73">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="703"/>
+	<property name="ireport.background.image" value="D:\New\Student Management\WebContent\report\certsample-1.jpg"/>
+	<property name="ireport.background.image.properties" value="false,true,0.25,0,0,0,0,0,0"/>
+	<parameter name="filepath" class="java.lang.String"/>
+	<parameter name="hour" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="generation" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="course" class="java.lang.String"/>
+	<parameter name="class" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT stu.last_name || ' ' || stu.first_name,g.generation,stu.gender,cour.course_type,to_char(cour.start_date,'FMMonth FMDDth, YYYY') , to_char(cour.end_date,'FMMonth FMDDth, YYYY')as b
+FROM tbl_students stu
+INNER JOIN tbl_selection sels
+ON sels.stu_id=stu.stu_id
+INNER JOIN tbl_class cls
+ON cls.class_id=sels.class_id
+INNER JOIN tbl_course cour
+ON cour.course_id=cls.course_id
+INNER JOIN tbl_generation g
+ON g.g_id=cour.g_id
+where g.generation LIKE $P{generation} AND cour.course_type LIKE $P{course} AND cls.class_name LIKE $P{class} AND stu.status=1]]>
+	</queryString>
+	<field name="?column?" class="java.lang.String"/>
+	<field name="generation" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="course_type" class="java.lang.String"/>
+	<field name="to_char" class="java.lang.String"/>
+	<field name="b" class="java.lang.String"/>
+	<background>
+		<band height="550" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="802" height="550" uuid="0011492a-decd-45df-8a54-01235556951f"/>
+				<imageExpression><![CDATA[$P{filepath}+"\\Certificate-Gold.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="362" y="202" width="185" height="35" uuid="204e1fc9-588b-49fe-b848-1c2ba64093f9"/>
+				<textElement>
+					<font fontName="Serif" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{?column?}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="246" width="103" height="26" uuid="34529a56-40ef-4431-bcc9-e921182da2aa"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="464" y="247" width="126" height="26" uuid="0bbfe5d4-b88c-469b-8d7d-139c8ed957c6"/>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{course_type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="318" y="261" width="127" height="32" uuid="1904c5d8-4051-4905-8c97-8ab8e92402cb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{to_char}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="471" y="261" width="128" height="32" uuid="32871868-347d-4079-a901-a11d1b19278a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{b}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="397" y="300" width="67" height="29" uuid="6fa7e136-2c10-449f-862d-1d3811afc342"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{hour}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="202" width="144" height="35" uuid="24b5f49f-57fe-494a-ba1a-922513a5f1d7"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}=="1" ? "Mrs." : "Mr."]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="380" y="353" width="100" height="20" uuid="9e93a510-3333-49a7-a752-f48e29734f33"/>
+				<textElement>
+					<font fontName="Serif" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</background>
+	<title>
+		<band height="147" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="198" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="83" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="64" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

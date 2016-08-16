@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Transcript" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="24678d5d-ea76-4ffc-94f7-eb85767d6de9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="New Dataset 1" uuid="dca9eb71-dfa9-42a1-ad23-d32c85f86d22">
+		<queryString language="SQL">
+			<![CDATA[SELECT ST.last_name || ' ' || ST.first_name,ST.gender, ST.dob, ST.pob, ST.usersrc,ST.register_date, C.course_type, SU.subject_name, C2.total, G.generation
+,
+(
+select sum(total) total_score  from(
+SELECT C2.total as total
+FROM tbl_students ST
+INNER JOIN tbl_course C on ST.course_id=C.course_id
+INNER JOIN tbl_generation G on G.g_id = C.g_id
+INNER JOIN tbl_score SC ON ST.stu_id=SC.student_id
+INNER JOIN tbl_subjects SU ON SC.subject_id=SU.subject_id
+INNER JOIN (SELECT student_id, subject_id, SUM(SC2.score) total FROM tbl_score SC2 WHERE SC2.student_id='stu031' GROUP BY student_id, subject_id) C2
+ON C2.student_id=ST.stu_id AND C2.subject_id=SC.subject_id
+WHERE ST.stu_id='stu031'
+) as Sub_total
+) Sub
+
+FROM tbl_students ST
+INNER JOIN tbl_course C on ST.course_id=C.course_id
+INNER JOIN tbl_generation G on G.g_id = C.g_id
+INNER JOIN tbl_score SC ON ST.stu_id=SC.student_id
+INNER JOIN tbl_subjects SU ON SC.subject_id=SU.subject_id
+INNER JOIN (SELECT student_id, subject_id, SUM(SC2.score) total FROM tbl_score SC2 WHERE SC2.student_id='stu031' GROUP BY student_id, subject_id) C2
+ON C2.student_id=ST.stu_id AND C2.subject_id=SC.subject_id
+
+WHERE ST.stu_id='stu031'
+
+GROUP BY ST.stu_id, C.course_type, SU.subject_name, C2.subject_id, C2.total, G.g_id]]>
+		</queryString>
+		<field name="?column?" class="java.lang.String"/>
+		<field name="gender" class="java.lang.String"/>
+		<field name="dob" class="java.sql.Date"/>
+		<field name="pob" class="java.lang.String"/>
+		<field name="usersrc" class="java.lang.String"/>
+		<field name="register_date" class="java.sql.Date"/>
+		<field name="course_type" class="java.lang.String"/>
+		<field name="subject_name" class="java.lang.String"/>
+		<field name="total" class="java.math.BigDecimal"/>
+		<field name="generation" class="java.lang.String"/>
+		<field name="sub" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\New\\Student Management\\WebContent\\report\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filepath" class="java.lang.String"/>
+	<parameter name="realpath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT ST.last_name || ' ' || ST.first_name ABC,ST.gender, to_char(ST.dob,'FMMonth FMDDth, YYYY'), ST.pob, ST.profilesrc,ST.register_date, C.course_type,C.start_date, C.end_date, SU.subject_name,SU.subject_id,SU.score_percent, C2.total,(SELECT COUNT(SC.score_month)) AS summonth, G.generation, (SELECT COUNT(s.subject_id)
+from tbl_subjects s)
+,
+(
+select sum(total) total_score  from(
+SELECT C2.total as total
+FROM tbl_students ST
+INNER JOIN tbl_course C on ST.course_id=C.course_id
+INNER JOIN tbl_generation G on G.g_id = C.g_id
+INNER JOIN tbl_score SC ON ST.stu_id=SC.student_id
+INNER JOIN tbl_subjects SU ON SC.subject_id=SU.subject_id
+INNER JOIN (SELECT student_id, subject_id, SUM(SC2.score) total FROM tbl_score SC2 WHERE SC2.student_id LIKE '%' GROUP BY student_id, subject_id) C2
+ON C2.student_id=ST.stu_id AND C2.subject_id=SC.subject_id
+WHERE ST.stu_id LIKE '%'
+) as Sub_total
+) Sub
+
+FROM tbl_students ST
+INNER JOIN tbl_course C on ST.course_id=C.course_id
+INNER JOIN tbl_generation G on G.g_id = C.g_id
+INNER JOIN tbl_score SC ON ST.stu_id=SC.student_id
+INNER JOIN tbl_subjects SU ON SC.subject_id=SU.subject_id
+INNER JOIN (SELECT student_id, subject_id, SUM(SC2.score) total FROM tbl_score SC2 WHERE SC2.student_id LIKE '%' GROUP BY student_id, subject_id) C2
+ON C2.student_id=ST.stu_id AND C2.subject_id=SC.subject_id
+
+WHERE g.generation LIKE '%'
+
+GROUP BY ST.stu_id, C.course_type, SU.subject_name,C.start_date, C.end_date, C2.subject_id, C2.total, G.g_id, SU.subject_id
+ORDER BY ABC]]>
+	</queryString>
+	<field name="abc" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String"/>
+	<field name="to_char" class="java.lang.String"/>
+	<field name="pob" class="java.lang.String"/>
+	<field name="profilesrc" class="java.lang.String"/>
+	<field name="register_date" class="java.sql.Date"/>
+	<field name="course_type" class="java.lang.String"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="end_date" class="java.sql.Date"/>
+	<field name="subject_name" class="java.lang.String"/>
+	<field name="subject_id" class="java.lang.String"/>
+	<field name="score_percent" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<field name="summonth" class="java.lang.Long"/>
+	<field name="generation" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<field name="sub" class="java.math.BigDecimal"/>
+	<variable name="sumscore" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}/$F{summonth}]]></variableExpression>
+	</variable>
+	<variable name="java" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{total}/$F{summonth}*100/35]]></variableExpression>
+	</variable>
+	<variable name="korea" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{total}/$F{summonth}*100/30]]></variableExpression>
+	</variable>
+	<variable name="web" class="java.lang.Float">
+		<variableExpression><![CDATA[$F{total}/$F{summonth}*100/25]]></variableExpression>
+	</variable>
+	<variable name="sum" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   )     )]]></variableExpression>
+	</variable>
+	<variable name="average" class="java.lang.Float" calculation="Average">
+		<variableExpression><![CDATA[($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   )     )]]></variableExpression>
+	</variable>
+	<background>
+		<band height="800" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="800" uuid="b63b389f-427b-4736-a638-80e005f9c560"/>
+				<imageExpression><![CDATA[$P{filepath}+"\\transcript.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="116" splitType="Stretch">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="483" y="90" width="37" height="20" uuid="66e48681-2921-4264-a37a-f87d76836970"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{start_date}.format("YYYY -")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="512" y="90" width="31" height="20" uuid="2ab1a3e1-d668-40de-9894-510f98810575"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{end_date}.format("YYYY")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="82" y="90" width="402" height="20" uuid="83659d54-a6c4-4392-9e94-504a8db07f4e"/>
+				<textElement>
+					<font fontName="Serif" size="13"/>
+				</textElement>
+				<text><![CDATA[has successfully completed an IT Expert Training Course for the academic year ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="82" y="0" width="89" height="20" uuid="0bc64441-c2f0-4cf8-bd89-8d95ac219d8f"/>
+				<textElement>
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name		:]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="171" y="24" width="100" height="20" uuid="7be7ce78-c11f-472a-9ff2-b2bcce57225d"/>
+				<textElement>
+					<font fontName="Serif" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}=="1" ? "F" : "M"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="171" y="67" width="100" height="20" uuid="fcf1f92b-faad-45af-af5f-9aa35033f470"/>
+				<textElement>
+					<font fontName="Serif" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pob}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="82" y="24" width="89" height="20" uuid="b12f8949-3506-425a-9c51-2fde94d5a316"/>
+				<textElement>
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gender	:]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="171" y="0" width="100" height="20" uuid="a748a5ec-1282-4435-976e-14d5a4c0f75b"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="82" y="44" width="89" height="20" uuid="899dbb36-730b-4931-a5b1-c1c9b93ea4c9"/>
+				<textElement>
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of Birth	:]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="171" y="44" width="139" height="20" uuid="25a31acd-1331-4cba-ba8a-6a1700e44442"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{to_char}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="82" y="67" width="89" height="20" uuid="7af6b20a-a780-4b0e-b432-581c9890dfd3"/>
+				<textElement>
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Place of Birth	:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="38" y="0" width="100" height="20" backcolor="#CCCCCC" uuid="3c49cbc6-6fb3-4529-8f76-64ed00ac67f6"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					<rightPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="137" y="0" width="97" height="20" backcolor="#CCCCCC" uuid="aecaf77f-441a-4d7a-9e5a-63188ccf2f5f"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					<rightPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Course]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="234" y="0" width="100" height="20" backcolor="#CCCCCC" uuid="4f209452-6264-44ef-b115-bd2f3cdf90b4"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					<rightPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subjects]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="334" y="0" width="97" height="20" backcolor="#CCCCCC" uuid="00837c03-5a43-44ac-a8fe-6460bad23fe5"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					<rightPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Score]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="430" y="0" width="101" height="20" backcolor="#CCCCCC" uuid="355809a6-77cd-4e0e-8dec-1f23695beab3"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Double"/>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<leftPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="0.5" lineStyle="Double"/>
+					<rightPen lineWidth="0.5" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grade]]></text>
+			</staticText>
+		</band>
+		<band height="25">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="39" y="0" width="99" height="25" isRemoveLineWhenBlank="true" uuid="70d28bb9-95ab-4b5c-b243-0098142b9124"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{generation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="138" y="0" width="97" height="25" isRemoveLineWhenBlank="true" uuid="81f254f1-a378-45fe-a6b8-d6e8ea645db2"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{course_type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="431" y="0" width="100" height="25" uuid="bce70311-5b9e-4a2a-bb8e-96153778715d"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(  ($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   ))>=90? "A" :
+($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   ))>=80? "B" :
+($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   ))>=70? "C" :
+($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   ))>=60? "D" :
+($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   ))>=50? "E" : "F"
+
+
+)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="235" y="0" width="100" height="25" uuid="6945d080-d10e-4b20-805b-264f9e951dce"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subject_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement isPrintRepeatedValues="false" x="335" y="0" width="96" height="25" uuid="9275235f-6751-4285-bada-0f084432ac6e"/>
+				<box bottomPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[($F{subject_id}.equalsIgnoreCase("sub002")? $V{java}:
+    ($F{subject_id}.equalsIgnoreCase("sub003")?$V{korea}:
+       $V{web}
+   )     )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="140" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Transparent" x="328" y="38" width="98" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="17ff097c-ef6b-4901-a464-8c0fffd7325a"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineWidth="0.0" lineStyle="Double"/>
+					<bottomPen lineWidth="0.0" lineStyle="Double"/>
+					<rightPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[General Grade:]]></text>
+			</staticText>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" mode="Transparent" x="425" y="38" width="100" height="20" backcolor="#CCCCCC" uuid="f1bc2447-170e-47f1-92f7-85396164a1a8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{average}>=90 ? "A" :
+( $V{average}>=80 ? "B" :
+    ($V{average}>=70 ? "C":
+        ($V{average}>=60?"D":
+    ($V{average}>=50 ? "E" :
+      "F")))
+  )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="328" y="19" width="100" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="bed154b0-e1cd-4e2c-af29-c183201ce1ab"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineWidth="0.0" lineStyle="Double"/>
+					<bottomPen lineWidth="0.0" lineStyle="Double"/>
+					<rightPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Average:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="425" y="0" width="100" height="20" backcolor="#CCCCCC" uuid="86437995-88de-439f-a80d-c494da945f01"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{sum})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="424" y="19" width="101" height="20" backcolor="#CCCCCC" uuid="812e83d4-bf9a-4e04-bbef-7e8a1303bd98"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("0.00").format($V{average})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="328" y="0" width="98" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="0511d5c4-59b5-499a-b70e-fdd5189e4907"/>
+				<box>
+					<pen lineWidth="0.0" lineStyle="Double"/>
+					<topPen lineWidth="0.0" lineStyle="Double"/>
+					<leftPen lineWidth="0.0" lineStyle="Double"/>
+					<bottomPen lineWidth="0.0" lineStyle="Double"/>
+					<rightPen lineWidth="0.0" lineStyle="Double"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="161" y="38" width="0" height="20" forecolor="#FFFFFF" uuid="fe13c857-d24e-429d-ad2f-d348bef2cac3"/>
+				<textFieldExpression><![CDATA[$F{subject_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="39" y="18" width="100" height="20" uuid="e769835c-0caa-4340-9677-2dd493f5bd88"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

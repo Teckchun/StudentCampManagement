@@ -1,0 +1,60 @@
+a.mylink {
+	display: inline;
+	font-size: 20px;
+	color: black;
+	line-height: 50px;
+}
+
+a.mylink:hover {
+	color: #1d9c73;
+}
+
+div.myspace {
+	height: 20px;
+}
+
+div.mybox {
+	height: 50px;
+	background: #009688;
+}
+
+div.myclass {
+	border-radius: 0;
+	padding: 0px 0 0 0;
+	background:#FAFAFA;
+}
+
+div.totalbox {
+	margin-top: 3px;
+	height: 50px;
+	
+}
+
+div.totalbox:hover {
+	opacity: 0.8;
+}
+
+i.iconstyle {
+	color: white;
+	font-size: 20px;
+	margin-top: 15px;
+}
+
+h4.clnametext {
+	color: white;
+	margin-top: 15px;
+	margin-right: 3px;
+}
+
+div.boxaction {
+	margin-top: 3px;
+	height: 50px;
+	background:#FAFAFA;
+	
+}
+
+p.textpple {
+	color: white;
+	font-weight: bold;
+	font-size: 15px;
+}

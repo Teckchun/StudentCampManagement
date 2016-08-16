@@ -1,0 +1,225 @@
+
+-----------------------------------------------------------------------------------------------------------------------
+----Create Table notification
+--------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE tbl_notification
+( id serial PRIMARY KEY,
+  for_id CHAR(6) REFERENCES tbl_students(stu_id),
+  notification SMALLINT DEFAULT 0
+);
+---------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE tbl_message(
+  msm_id char(8) PRIMARY KEY,
+  sender_id CHAR(6) REFERENCES tbl_staffs(staff_id),
+  title VARCHAR(150),
+  description TEXT,
+  img_info TEXT,
+  post_time TIME DEFAULT now() ,
+  post_date Date DEFAULT now()
+);
+------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE tbl_user_message(
+  id serial PRIMARY KEY,
+  user_id CHAR(6) REFERENCES tbl_students(stu_id),
+  sms_id CHAR(8) REFERENCES tbl_message(msm_id),
+  status SMALLINT DEFAULT 1
+);
+------------------------------------------------------------------------------------------------------------------------------------------
+
+--Get number notification
+---------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_number_notification(char(6))
+RETURNS INT AS
+$$
+BEGIN
+  RETURN(SELECT notification FROM tbl_notification WHERE for_id=$1);
+END;
+$$ LANGUAGE 'plpgsql' STABLE;
+----------------------------------------------------------------------------------------------------------------
+----Add Notification
+-----------------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION increase_notification()
+RETURNS VOID AS
+$$
+BEGIN
+ UPDATE tbl_notification SET notification=notifacation+1;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+-------------------------------------------------------------------------------------------------------------------
+--Descrease Notification
+---------------------------------------------------------------------------------------------------------------------
+CREATE or REPLACE FUNCTION descrease_notification(char(6))
+RETURNS VOID AS
+$$
+BEGIN
+ UPDATE tbl_notification SET notification=notification-1 WHERE for_id=$1;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+-------------------------------------------------------------------------------------------------------------------
+----Get max message id
+------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_max_message_id()
+RETURNS CHAR(8) AS
+$$
+BEGIN
+ RETURN(SELECT "max"(msm_id) FROM tbl_message);
+END;
+$$ LANGUAGE 'plpgsql' STABLE;
+-----------------------------------------------------------------------------------------------------------------
+---Get Number row in table
+-----------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_number_row_message_table()
+RETURNS INT AS
+$$
+BEGIN
+ RETURN(SELECT "count"(msm_id) FROM tbl_message);
+END;
+$$ LANGUAGE 'plpgsql' STABLE;
+-----------------------------------------------------------------------------------------------------------------
+----Save Message
+-----------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION save_message(char(8),char(5),VARCHAR,TEXT,VARCHAR)
+RETURNS VOID AS
+$$
+DECLARE
+ nrow INT;
+BEGIN
+ INSERT INTO tbl_message(msm_id,sender_id,title,description,img_info) VALUES($1,$2,$3,$4,$5);
+ nrow:=(SELECT "count"(stu_id) FROM tbl_students WHERE status=1);
+  FOR i IN 0..nrow-1 LOOP  
+      INSERT INTO tbl_user_message(user_id)
+      SELECT stu_id FROM tbl_students WHERE status=1 ORDER BY stu_id LIMIT 1 OFFSET i;
+      UPDATE tbl_user_message SET sms_id=$1 WHERE id=(SELECT "max"(id) FROM tbl_user_message);   
+  END LOOP;    
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+-----------------------------------------------------------------------------------------------------------------------------------------
+----Save Notification
+------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION save_notification(CHAR(6))
+RETURNS VOID AS
+$$
+BEGIN
+  INSERT INTO tbl_notification(for_id) VALUES($1);
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+--------------------------------------------------------------------------------------------------------------------------------------------
+-----View Get Message
+---------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE VIEW v_message
+AS
+SELECT um.user_id,um.sms_id,ms.title,ms.description,stf.stf_name,ms.post_time
+,um.status,stf.profilesrc,ms.img_info,ms.post_date
+FROM tbl_user_message um
+INNER JOIN tbl_message ms ON um.sms_id=ms.msm_id
+INNER JOIN tbl_staffs stf ON ms.sender_id=stf.staff_id;
+
+CREATE OR REPLACE VIEW v_message_info
+AS
+SELECT ms.msm_id,stf.stf_name,ms.title,ms.description,ms.img_info,ms.post_date,ms.post_time,
+stf.profilesrc
+FROM tbl_message ms
+INNER JOIN tbl_staffs stf ON ms.sender_id=stf.staff_id;
+----------------------------------------------------------------------------------------------------------------------------------------------
+-----------Function Get Message
+---------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_message(char(6))
+RETURNS SETOF v_message
+AS 
+$$
+ SELECT * FROM v_message WHERE user_id=$1 ORDER BY sms_id
+$$ LANGUAGE 'sql' STABLE;
+
+CREATE OR REPLACE FUNCTION get_message()
+RETURNS SETOF v_message_info
+AS 
+$$
+ SELECT * FROM v_message_info ORDER BY msm_id DESC
+$$ LANGUAGE 'sql' STABLE;
+
+CREATE OR REPLACE FUNCTION get_1message_info(CHAR(8))
+RETURNS SETOF v_message_info
+AS 
+$$
+ SELECT * FROM v_message_info WHERE msm_id=$1
+$$ LANGUAGE 'sql' STABLE;
+----------------------------------------------------------------------------------------------------------------------------------------------
+--Change message status for user
+------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION change_message_for_user(CHAR(6),CHAR(8))
+RETURNS VOID AS
+$$
+BEGIN
+  UPDATE tbl_user_message SET status=0 WHERE user_id=$1 AND sms_id=$2;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+-------------------------------------------------------------------------------------------------------------------------------------------------
+---Get Message Statu
+------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_message_status(CHAR(6),CHAR(8))
+RETURNS INT AS
+$$
+BEGIN
+ RETURN(SELECT status from v_message WHERE user_id=$1 AND sms_id=$2);
+END;
+$$ LANGUAGE 'plpgsql' STABLE;
+--------------------------------------------------------------------------------------------------------------------------------------------------
+--Reset Table
+-------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION reset_table()
+RETURNS void AS
+$$
+BEGIN
+ UPDATE tbl_notification SET notification=0;
+ DELETE FROM tbl_user_message;
+ DELETE FROM tbl_message;  
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+----------------------------------------------------------------------------------------------------------------------------------------------------
+---Delete Message From User
+----------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION delete_message_from_user(CHAR(6),CHAR(8))
+RETURNS VOID AS
+$$
+BEGIN
+  DELETE FROM tbl_user_message WHERE user_id=$1 AND sms_id=$2;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION delete_message_from_user(CHAR(6))
+RETURNS VOID AS
+$$
+BEGIN
+  DELETE FROM tbl_user_message WHERE user_id=$1;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+--------------------------------------------------------------------------------------------------------------------------------------------------
+---Chage notification to zero
+--------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION change_notification_to_zero(CHAR(6))
+RETURNS Void AS
+$$
+BEGIN
+UPDATE tbl_notification SET notification=0 WHERE for_id=$1;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+---------------------------------------------------------------------------------------------------------------------------------------------------
+---Delete Message From User
+---------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION delete_message_from_user(CHAR(6))
+RETURNS Void AS 
+$$
+BEGIN
+ DELETE FROM tbl_user_message WHERE user_id=$1;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+------------------------------------------------------------------------------------------------------------------------------------------------
+-----------Get 1 Message
+-------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION get_1message(CHAR(6),CHAR(8))
+RETURNS v_message AS
+$$
+ SELECT * FROM v_message WHERE user_id=$1 AND sms_id=$2
+$$ LANGUAGE 'sql' STABLE;
+-------------------------------------------------------------------------------------------------------------------------------------------------

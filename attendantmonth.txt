@@ -1,0 +1,91 @@
+
+
+SELECT stu.stu_id,CONCAT(stu.last_name,' ',stu.first_name) stuname,cls.class_name,
+				 MAX(CASE WHEN date_part('day', att.att_date) = '1' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "01",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '2' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "02",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '3' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "03",
+         MAX(CASE WHEN date_part('day', att.att_date) = '4' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "04",
+         MAX(CASE WHEN date_part('day', att.att_date) = '5' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "05",
+         MAX(CASE WHEN date_part('day', att.att_date) = '6' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "06",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '7' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "07",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '8' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "8",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '9' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "9",
+         MAX(CASE WHEN date_part('day', att.att_date) = '10' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "10",
+         MAX(CASE WHEN date_part('day', att.att_date) = '11' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "11",
+         MAX(CASE WHEN date_part('day', att.att_date) = '12' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "12",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '13' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "13",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '14' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "14",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '15' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "15",
+         MAX(CASE WHEN date_part('day', att.att_date) = '16' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "16",
+         MAX(CASE WHEN date_part('day', att.att_date) = '17' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "17",
+         MAX(CASE WHEN date_part('day', att.att_date) = '18' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "18",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '19' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "19",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '20' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "20",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '21' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "21",
+         MAX(CASE WHEN date_part('day', att.att_date) = '22' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "22",
+         MAX(CASE WHEN date_part('day', att.att_date) = '23' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "23",
+         MAX(CASE WHEN date_part('day', att.att_date) = '24' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "24",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '25' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "25",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '26' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "26",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '27' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "27",
+         MAX(CASE WHEN date_part('day', att.att_date) = '28' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "28",
+         MAX(CASE WHEN date_part('day', att.att_date) = '29' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "29",
+         MAX(CASE WHEN date_part('day', att.att_date) = '30' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "30",
+				MAX(CASE WHEN date_part('day', att.att_date) = '31' THEN case WHEN att.absence = 0 THEN case WHEN att.late+1=1 THEN att.permission+2 ELSE 2 END ELSE 1 END ELSE 0 END) AS "31",
+			detail.absence,detail.lat,detail.per
+from tbl_attendance att RIGHT JOIN tbl_students stu
+ON stu.stu_id=att.stu_id INNER JOIN tbl_selection selection
+ON selection.stu_id=stu.stu_id INNER JOIN tbl_class cls
+ON cls.class_id=selection.class_id INNER JOIN ( SELECT stu_id,sum(absent)::int as absence,sum(permission)::int as per,sum(late)::int as lat 
+		FROM v_student_attendent WHERE date_part('Month',date)::INT::TEXT = '8' AND 
+		date_part('Year',date)::INT::TEXT ='2015' GROUP BY stu_id ) detail
+ON detail.stu_id=att.stu_id
+
+WHERE  cls.class_name LIKE '%' and date_part('month', att.att_date)::INT::TEXT='8' and date_part('year', att.att_date)::INT::TEXT='2015'
+GROUP BY stu.stu_id,stuname,cls.class_name,detail.absence,detail.lat,detail.per
+
+
+UNION
+
+
+
+SELECT stu.stu_id,CONCAT(stu.last_name,' ',stu.first_name) stuname,cls.class_name,
+				 MAX(CASE WHEN date_part('day', att.att_date) = '1' THEN 0 ELSE 0 END) AS "01",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '2' THEN 0 ELSE 0 END) AS "02",
+				MAX(CASE WHEN date_part('day', att.att_date) = '3' THEN 0 ELSE 0 END) AS "03",
+         MAX(CASE WHEN date_part('day', att.att_date) = '4' THEN 0 ELSE 0 END) AS "04",
+         MAX(CASE WHEN date_part('day', att.att_date) = '5' THEN 0 ELSE 0 END) AS "05",
+         MAX(CASE WHEN date_part('day', att.att_date) = '6' THEN 0 ELSE 0 END) AS "06",
+				MAX(CASE WHEN date_part('day', att.att_date) = '7' THEN 0 ELSE 0 END) AS "07",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '8' THEN 0 ELSE 0 END) AS "8",
+				MAX(CASE WHEN date_part('day', att.att_date) = '9' THEN 0 ELSE 0 END) AS "9",
+         MAX(CASE WHEN date_part('day', att.att_date) = '10' THEN 0 ELSE 0 END) AS "10",
+         MAX(CASE WHEN date_part('day', att.att_date) = '11' THEN 0 ELSE 0 END) AS "11",
+         MAX(CASE WHEN date_part('day', att.att_date) = '12' THEN 0 ELSE 0 END) AS "12",
+					MAX(CASE WHEN date_part('day', att.att_date) = '13' THEN 0 ELSE 0 END) AS "13",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '14' THEN 0 ELSE 0 END) AS "14",
+				MAX(CASE WHEN date_part('day', att.att_date) = '15' THEN 0 ELSE 0 END) AS "15",
+         MAX(CASE WHEN date_part('day', att.att_date) = '16' THEN 0 ELSE 0 END) AS "16",
+         MAX(CASE WHEN date_part('day', att.att_date) = '17' THEN 0 ELSE 0 END) AS "17",
+         MAX(CASE WHEN date_part('day', att.att_date) = '18' THEN 0 ELSE 0 END) AS "18",
+				MAX(CASE WHEN date_part('day', att.att_date) = '19' THEN 0 ELSE 0 END) AS "19",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '20' THEN 0 ELSE 0 END) AS "20",
+				MAX(CASE WHEN date_part('day', att.att_date) = '21' THEN 0 ELSE 0 END) AS "21",
+         MAX(CASE WHEN date_part('day', att.att_date) = '22' THEN 0 ELSE 0 END) AS "22",
+         MAX(CASE WHEN date_part('day', att.att_date) = '23' THEN 0 ELSE 0 END) AS "23",
+         MAX(CASE WHEN date_part('day', att.att_date) = '24' THEN 0 ELSE 0 END) AS "24",
+					MAX(CASE WHEN date_part('day', att.att_date) = '25' THEN 0 ELSE 0 END) AS "25",
+				 MAX(CASE WHEN date_part('day', att.att_date) = '26' THEN 0 ELSE 0 END) AS "26",
+				MAX(CASE WHEN date_part('day', att.att_date) = '27' THEN 0 ELSE 0 END) AS "27",
+         MAX(CASE WHEN date_part('day', att.att_date) = '28' THEN 0 ELSE 0 END) AS "28",
+         MAX(CASE WHEN date_part('day', att.att_date) = '29' THEN 0 ELSE 0 END) AS "29",
+         MAX(CASE WHEN date_part('day', att.att_date) = '30' THEN 0 ELSE 0 END) AS "30",
+				MAX(CASE WHEN date_part('day', att.att_date) = '31' THEN 0 ELSE 0 END) AS "31",0,0,0
+    from tbl_attendance att RIGHT JOIN tbl_students stu
+ON stu.stu_id=att.stu_id INNER JOIN tbl_selection selection
+ON selection.stu_id=stu.stu_id INNER JOIN tbl_class cls
+ON cls.class_id=selection.class_id 
+WHERE  cls.class_name LIKE '%' and stu.stu_id NOT IN( SELECT attend.stu_id FROM tbl_attendance attend WHERE date_part('month', attend.att_date)='8' and date_part('year', attend.att_date)='2015')
+
+
+GROUP BY stu.stu_id,stuname,cls.class_name

@@ -1,0 +1,14 @@
+.red{background: red;color: #fff;}
+.orange{background: #FFA117;color: #fff;}
+.green{background: green;color: #fff;}
+.yellow{background: #CCCC00;color: #fff;}
+.table th{text-align: center; }
+.table{text-align: center;}
+.center .subject-list{ list-style: none;float: left;margin-top: 30px; margin-right: 10px; margin-left: 20px;}
+.center .select-list{list-style: none;float: left; margin-top: 30px; margin-right: 10px; margin-left: 20px;}
+.center .gen-list{list-style: none;float: left;}
+.center .search-bttn{list-style: none;}
+.center .select-tab{height: 80px; background-color: darkgray}
+.form-group{text-align: left;}
+.panel-heading{text-align: left;}
+.center{width: 90%;margin: auto;}
